@@ -14,7 +14,153 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      card_variants: {
+        Row: {
+          autograph: boolean
+          card_id: string
+          id: string
+          parallel: string
+          print_run: number | null
+        }
+        Insert: {
+          autograph?: boolean
+          card_id: string
+          id: string
+          parallel: string
+          print_run?: number | null
+        }
+        Update: {
+          autograph?: boolean
+          card_id?: string
+          id?: string
+          parallel?: string
+          print_run?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "card_variants_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "catalog_cards"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      catalog_cards: {
+        Row: {
+          card_number: string
+          club: string
+          collection: string
+          id: string
+          illustrative: boolean
+          image: string
+          manufacturer: string
+          player: string
+          season: string
+        }
+        Insert: {
+          card_number: string
+          club: string
+          collection: string
+          id: string
+          illustrative?: boolean
+          image: string
+          manufacturer: string
+          player: string
+          season: string
+        }
+        Update: {
+          card_number?: string
+          club?: string
+          collection?: string
+          id?: string
+          illustrative?: boolean
+          image?: string
+          manufacturer?: string
+          player?: string
+          season?: string
+        }
+        Relationships: []
+      }
+      physical_copies: {
+        Row: {
+          condition: string
+          created_at: string
+          grading: string
+          id: string
+          owner_id: string
+          serial: string
+          variant_id: string
+        }
+        Insert: {
+          condition?: string
+          created_at?: string
+          grading?: string
+          id?: string
+          owner_id?: string
+          serial?: string
+          variant_id: string
+        }
+        Update: {
+          condition?: string
+          created_at?: string
+          grading?: string
+          id?: string
+          owner_id?: string
+          serial?: string
+          variant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "physical_copies_variant_id_fkey"
+            columns: ["variant_id"]
+            isOneToOne: false
+            referencedRelation: "card_variants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          display_name: string
+          id: string
+        }
+        Insert: {
+          display_name?: string
+          id: string
+        }
+        Update: {
+          display_name?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      wishlist: {
+        Row: {
+          created_at: string
+          user_id: string
+          variant_id: string
+        }
+        Insert: {
+          created_at?: string
+          user_id?: string
+          variant_id: string
+        }
+        Update: {
+          created_at?: string
+          user_id?: string
+          variant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wishlist_variant_id_fkey"
+            columns: ["variant_id"]
+            isOneToOne: false
+            referencedRelation: "card_variants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
