@@ -9,8 +9,10 @@ import {
   ArrowUpRight,
   CircleDot,
 } from "lucide-react";
+import { useAuth } from "@/lib/auth-state";
 import { Button } from "./ui/button";
 export function PlatformShell({ children }: { children: React.ReactNode }) {
+  const { user } = useAuth();
   const links = [
     { to: "/explorar", label: "Explorar", icon: Search },
     { to: "/colecao", label: "Coleção", icon: Library },
@@ -54,14 +56,14 @@ export function PlatformShell({ children }: { children: React.ReactNode }) {
               aria-label="Minha conta"
               className="grid size-9 shrink-0 place-items-center rounded-full border border-border bg-secondary text-[11px] font-bold"
             >
-              LF
+              {user ? <UserRound size={17} /> : <UserRound size={17} />}
             </Link>
           </div>
         </div>
       </header>
       <div className="demo-strip">
         <CircleDot size={10} className="mr-1.5 inline text-primary" />
-        Protótipo demonstrativo · Dados, preços e imagens ilustrativos · Sem transações reais
+        Catálogo e anúncios ilustrativos · Coleção pessoal privada · Sem transações reais
       </div>
       <main>{children}</main>
       <footer className="footer">
@@ -71,7 +73,7 @@ export function PlatformShell({ children }: { children: React.ReactNode }) {
             quem coleciona.
           </span>
           <span>
-            Protótipo local · Brasil <ArrowUpRight size={12} className="ml-1 inline" />
+            Card FC Brasil · Brasil <ArrowUpRight size={12} className="ml-1 inline" />
           </span>
         </div>
       </footer>

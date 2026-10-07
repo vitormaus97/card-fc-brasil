@@ -4,6 +4,7 @@ import { ArrowLeft, Check, Plus, Heart, BadgeCheck, Image, ArrowRight } from "lu
 import { Button } from "@/components/ui/button";
 import { CardTile } from "@/components/card-tile";
 import { variants, getCard, variantLabel, type PhysicalCopy } from "@/lib/catalog";
+import { useCollection } from "@/lib/collection-state";
 import { useDemo } from "@/lib/demo-store";
 import { pageHead } from "@/lib/metadata";
 export const Route = createFileRoute("/card/$id")({
@@ -34,12 +35,13 @@ export const Route = createFileRoute("/card/$id")({
 function CardDetail() {
   const v = Route.useLoaderData();
   const card = getCard(v);
-  const { copies, wanted, toggleHave, toggleWant } = useDemo();
+  const { copies } = useDemo();
+  const { copies: owned, wanted, toggleHave, toggleWant, busy, loading } = useCollection();
   const navigate = useNavigate();
   const [selected, setSelected] = useState<PhysicalCopy | null>(null);
   const [side, setSide] = useState("front");
   if (!card) return null;
-  const have = copies.some((c) => c.variantId === v.id && c.ownerId === "me");
+  const have = owned.some((c) => c.variant_id === v.id);
   const want = wanted.includes(v.id);
   const listings = copies.filter((c) => c.variantId === v.id && c.listed);
   const sameCard = variants.filter((item) => item.cardId === card.id);
@@ -124,6 +126,7 @@ function CardDetail() {
           <div className="mt-6 grid grid-cols-2 gap-3">
             <Button
               size="lg"
+              disabled={busy || loading}
               onClick={() => toggleHave(v)}
               variant={have ? "secondary" : "default"}
               aria-pressed={have}
@@ -134,6 +137,7 @@ function CardDetail() {
             <Button
               size="lg"
               variant={want ? "secondary" : "outline"}
+              disabled={busy || loading}
               onClick={() => toggleWant(v.id)}
               aria-pressed={want}
             >
