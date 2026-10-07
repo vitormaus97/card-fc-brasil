@@ -1,11 +1,214 @@
-import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
-import { useState } from 'react';
-import { ArrowRight, Search, Sparkles, Layers2, ArrowUpRight } from 'lucide-react';
-import hero from '@/assets/football-cards.jpg';
-import { Button } from '@/components/ui/button';
-import { CardTile } from '@/components/card-tile';
-import { variants, catalogCards } from '@/lib/catalog';
-import { useDemo } from '@/lib/demo-store';
-import { pageHead } from '@/lib/metadata';
-export const Route=createFileRoute('/')({head:()=>pageHead('Seu próximo card está aqui','Explore cards físicos de futebol, acompanhe sua coleção e descubra exemplares no mercado brasileiro. Protótipo demonstrativo.'),component:Index});
-function Index(){const [query,setQuery]=useState('');const navigate=useNavigate();const {copies}=useDemo();const recent=copies.filter(c=>c.listed).slice(0,5);return <div className="enter-animation"><section className="hero"><img src={hero} className="hero-photo" alt="Cards de futebol ilustrativos com acabamento holográfico" width={1536} height={1024}/><div className="hero-shade"/><div className="hero-content site-shell"><div className="eyebrow"><span className="size-1.5 rounded-full bg-primary"/>A paixão pelo futebol. Em cada card.</div><h1 className="hero-title">Football Cards.<br/>Sua próxima <span className="text-primary">grande<br className="hidden md:block"/> descoberta.</span></h1><p className="hero-description mt-4 max-w-[400px] text-[13px] leading-relaxed text-muted-foreground">Encontre aquele card que falta. Organize sua coleção.<br className="hidden md:block"/>Conecte-se com quem compartilha a mesma paixão.</p><form className="search-box mt-6 max-w-[475px]" onSubmit={e=>{e.preventDefault();navigate({to:'/explorar',search:{q:query}});}}><Search size={19} className="shrink-0 text-muted-foreground"/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Qual card você está procurando?" aria-label="Busca principal"/><Button type="submit" className="h-10 px-4">Buscar<ArrowRight/></Button></form><div className="mt-4 flex flex-wrap items-center gap-3 text-[10px] text-muted-foreground"><span>Em alta:</span>{['Vinícius Júnior','Messi','Topps Chrome'].map(text=><Link key={text} to="/explorar" search={{q:text}} className="transition-colors hover:text-primary">{text}<ArrowUpRight size={10} className="ml-1 inline"/></Link>)}</div></div></section><div className="site-shell"><section className="pt-9"><div className="section-heading"><div><h2 className="flex items-center gap-2.5"><Layers2 size={19} className="text-primary"/>Coleções em destaque</h2><p className="section-kicker">Grandes coleções. Infinitas possibilidades.</p></div><Link to="/explorar" className="flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-primary">Ver todas<ArrowRight size={15}/></Link></div><div className="grid gap-4 md:grid-cols-3">{[{name:'Topps Chrome UEFA',tag:'CHROME',sub:'O brilho da elite europeia.',cards:[0,4],count:'3 variantes'},{name:'Panini Prizm World Cup',tag:'PRIZM',sub:'Lendas do maior palco do futebol.',cards:[1,2],count:'2 variantes'},{name:'Panini Select',tag:'SELECT',sub:'Talentos que fazem história.',cards:[3,5],count:'2 variantes'}].map((col,i)=><Link key={col.name} to="/explorar" search={{collection:col.name}} className="collection-tile"><span className={`text-[10px] font-extrabold ${i===1?'text-gold':'text-primary'}`}>{col.tag} <span className="font-normal text-muted-foreground">/ {i===0?'TOPPS':'PANINI'}</span></span><h3 className="relative z-10 mt-3 max-w-[155px] text-[17px] font-bold">{col.name}</h3><p className="relative z-10 mt-1 max-w-[155px] text-[10px] text-muted-foreground">{col.sub}</p><span className="relative z-10 mt-4 flex items-center gap-2 text-[10px] text-muted-foreground">{col.count}<ArrowRight size={12}/></span><img src={catalogCards[col.cards[1] ?? 0]?.image} className="collection-back" alt="Card ilustrativo" loading="lazy" width={100} height={140}/><img src={catalogCards[col.cards[0] ?? 0]?.image} alt="Card ilustrativo da coleção" loading="lazy" width={100} height={140}/></Link>)}</div></section><section className="pt-10"><div className="section-heading"><div><h2 className="flex items-center gap-2.5"><Sparkles size={19} className="text-primary"/>Acabaram de chegar</h2><p className="section-kicker">Exemplares únicos, esperando uma nova coleção.</p></div><Link to="/mercado" className="flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-primary">Ver mercado<ArrowRight size={15}/></Link></div><div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5 lg:gap-4">{recent.map(copy=>{const v=variants.find(v=>v.id===copy.variantId);return v?<CardTile key={copy.id} variant={v} copy={copy}/>:null;})}</div></section><div className="mt-9 flex flex-wrap items-center justify-between gap-4 border-y border-border py-6"><div><p className="text-sm font-bold">Cada card tem uma história. Qual é a sua?</p><p className="mt-1 text-xs text-muted-foreground">Sua coleção merece um lugar à altura.</p></div><Button variant="outline" asChild><Link to="/colecao">Minha coleção<ArrowRight/></Link></Button></div></div></div>;}
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import { ArrowRight, Search, Sparkles, Layers2, ArrowUpRight } from "lucide-react";
+import hero from "@/assets/football-cards.jpg";
+import { Button } from "@/components/ui/button";
+import { CardTile } from "@/components/card-tile";
+import { variants, catalogCards } from "@/lib/catalog";
+import { useDemo } from "@/lib/demo-store";
+import { pageHead } from "@/lib/metadata";
+export const Route = createFileRoute("/")({
+  head: () =>
+    pageHead(
+      "Seu próximo card está aqui",
+      "Explore cards físicos de futebol, acompanhe sua coleção e descubra exemplares no mercado brasileiro. Protótipo demonstrativo.",
+    ),
+  component: Index,
+});
+function Index() {
+  const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+  const { copies } = useDemo();
+  const recent = copies.filter((c) => c.listed).slice(0, 5);
+  return (
+    <div className="enter-animation">
+      <section className="hero">
+        <img
+          src={hero}
+          className="hero-photo"
+          alt="Cards de futebol ilustrativos com acabamento holográfico"
+          width={1536}
+          height={1024}
+        />
+        <div className="hero-shade" />
+        <div className="hero-content site-shell">
+          <div className="eyebrow">
+            <span className="size-1.5 rounded-full bg-primary" />A paixão pelo futebol. Em cada
+            card.
+          </div>
+          <h1 className="hero-title">
+            Football Cards.
+            <br />
+            Sua próxima{" "}
+            <span className="text-primary">
+              grande
+              <br className="hidden md:block" /> descoberta.
+            </span>
+          </h1>
+          <p className="hero-description mt-4 max-w-[400px] text-[13px] leading-relaxed text-muted-foreground">
+            Encontre aquele card que falta. Organize sua coleção.
+            <br className="hidden md:block" />
+            Conecte-se com quem compartilha a mesma paixão.
+          </p>
+          <form
+            className="search-box mt-6 max-w-[475px]"
+            onSubmit={(e) => {
+              e.preventDefault();
+              navigate({ to: "/explorar", search: { q: query } });
+            }}
+          >
+            <Search size={19} className="shrink-0 text-muted-foreground" />
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Qual card você está procurando?"
+              aria-label="Busca principal"
+            />
+            <Button type="submit" className="h-10 px-4">
+              Buscar
+              <ArrowRight />
+            </Button>
+          </form>
+          <div className="mt-4 flex flex-wrap items-center gap-3 text-[10px] text-muted-foreground">
+            <span>Em alta:</span>
+            {["Vinícius Júnior", "Messi", "Topps Chrome"].map((text) => (
+              <Link
+                key={text}
+                to="/explorar"
+                search={{ q: text }}
+                className="transition-colors hover:text-primary"
+              >
+                {text}
+                <ArrowUpRight size={10} className="ml-1 inline" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+      <div className="site-shell">
+        <section className="pt-9">
+          <div className="section-heading">
+            <div>
+              <h2 className="flex items-center gap-2.5">
+                <Layers2 size={19} className="text-primary" />
+                Coleções em destaque
+              </h2>
+              <p className="section-kicker">Grandes coleções. Infinitas possibilidades.</p>
+            </div>
+            <Link
+              to="/explorar"
+              className="flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-primary"
+            >
+              Ver todas
+              <ArrowRight size={15} />
+            </Link>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              {
+                name: "Topps Chrome UEFA",
+                tag: "CHROME",
+                sub: "O brilho da elite europeia.",
+                cards: [0, 4],
+                count: "3 variantes",
+              },
+              {
+                name: "Panini Prizm World Cup",
+                tag: "PRIZM",
+                sub: "Lendas do maior palco do futebol.",
+                cards: [1, 2],
+                count: "2 variantes",
+              },
+              {
+                name: "Panini Select",
+                tag: "SELECT",
+                sub: "Talentos que fazem história.",
+                cards: [3, 5],
+                count: "2 variantes",
+              },
+            ].map((col, i) => (
+              <Link
+                key={col.name}
+                to="/explorar"
+                search={{ collection: col.name }}
+                className="collection-tile"
+              >
+                <span
+                  className={`text-[10px] font-extrabold ${i === 1 ? "text-gold" : "text-primary"}`}
+                >
+                  {col.tag}{" "}
+                  <span className="font-normal text-muted-foreground">
+                    / {i === 0 ? "TOPPS" : "PANINI"}
+                  </span>
+                </span>
+                <h3 className="relative z-10 mt-3 max-w-[155px] text-[17px] font-bold">
+                  {col.name}
+                </h3>
+                <p className="relative z-10 mt-1 max-w-[155px] text-[10px] text-muted-foreground">
+                  {col.sub}
+                </p>
+                <span className="relative z-10 mt-4 flex items-center gap-2 text-[10px] text-muted-foreground">
+                  {col.count}
+                  <ArrowRight size={12} />
+                </span>
+                <img
+                  src={catalogCards[col.cards[1] ?? 0]?.image}
+                  className="collection-back"
+                  alt="Card ilustrativo"
+                  loading="lazy"
+                  width={100}
+                  height={140}
+                />
+                <img
+                  src={catalogCards[col.cards[0] ?? 0]?.image}
+                  alt="Card ilustrativo da coleção"
+                  loading="lazy"
+                  width={100}
+                  height={140}
+                />
+              </Link>
+            ))}
+          </div>
+        </section>
+        <section className="pt-10">
+          <div className="section-heading">
+            <div>
+              <h2 className="flex items-center gap-2.5">
+                <Sparkles size={19} className="text-primary" />
+                Acabaram de chegar
+              </h2>
+              <p className="section-kicker">Exemplares únicos, esperando uma nova coleção.</p>
+            </div>
+            <Link
+              to="/mercado"
+              className="flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-primary"
+            >
+              Ver mercado
+              <ArrowRight size={15} />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5 lg:gap-4">
+            {recent.map((copy) => {
+              const v = variants.find((v) => v.id === copy.variantId);
+              return v ? <CardTile key={copy.id} variant={v} copy={copy} /> : null;
+            })}
+          </div>
+        </section>
+        <div className="mt-9 flex flex-wrap items-center justify-between gap-4 border-y border-border py-6">
+          <div>
+            <p className="text-sm font-bold">Cada card tem uma história. Qual é a sua?</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Sua coleção merece um lugar à altura.
+            </p>
+          </div>
+          <Button variant="outline" asChild>
+            <Link to="/colecao">
+              Minha coleção
+              <ArrowRight />
+            </Link>
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,10 +1,138 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
-import { useState } from 'react';
-import { MapPin, Library, Store, Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { CardTile } from '@/components/card-tile';
-import { collectors, variants } from '@/lib/catalog';
-import { useDemo } from '@/lib/demo-store';
-import { pageHead } from '@/lib/metadata';
-export const Route=createFileRoute('/perfil')({validateSearch:(s:Record<string,unknown>):{collector?:string}=>({collector:typeof s['collector']==='string'?s['collector']:'me'}),head:()=>pageHead('Perfil do colecionador','Conheça a coleção pública e os anúncios demonstrativos dos colecionadores Football Cards.'),component:Profile});
-function Profile(){const {collector:id}=Route.useSearch();const person=collectors.find(c=>c.id===(id??'me'));const {copies}=useDemo();const [tab,setTab]=useState('collection');if(!person)return <div className="site-shell empty-state"><h1 className="page-title">Colecionador não encontrado</h1><Button asChild className="mt-5"><Link to="/perfil" search={{collector:'me'}}>Minha conta</Link></Button></div>;const own=copies.filter(c=>c.ownerId===person.id);const collection=variants.filter(v=>own.some(c=>c.variantId===v.id));const listings=own.filter(c=>c.listed);return <div className="site-shell enter-animation py-9"><span className="eyebrow">Colecionador demonstrativo</span><div className="mt-5 grid grid-cols-[auto_minmax(0,1fr)] items-center gap-5 sm:flex"><div className="grid size-20 shrink-0 place-items-center rounded-full border border-border bg-secondary text-2xl font-extrabold text-primary">{person.name.split(' ').map(s=>s[0]).join('')}</div><div className="min-w-0"><h1 className="page-title">{person.name}</h1><p className="mt-2 text-sm text-muted-foreground">@{person.handle}</p><p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground"><MapPin size={13}/>{person.city}</p></div>{person.id==='me'&&<Button asChild className="col-span-2 sm:ml-auto"><Link to="/anunciar"><Plus/>Anunciar card</Link></Button>}</div><p className="mt-6 max-w-lg text-sm leading-relaxed text-muted-foreground">Futebol, histórias e cards. Construindo minha coleção, uma descoberta de cada vez.</p><div className="mt-6 flex gap-7 border-y border-border py-5">{[[own.length,'exemplares'],[collection.length,'variantes'],[listings.length,'anúncios']].map(([n,l])=><p key={l} className="text-xs text-muted-foreground"><strong className="mr-1.5 text-xl text-foreground">{n}</strong>{l}</p>)}</div><div className="mb-6 mt-5 flex gap-6 border-b border-border" role="tablist" aria-label="Perfil público"><Button role="tab" aria-selected={tab==='collection'} data-active={tab==='collection'} variant="ghost" className="tab-link h-auto rounded-none px-0" onClick={()=>setTab('collection')}><Library/>Coleção pública</Button><Button role="tab" aria-selected={tab==='listings'} data-active={tab==='listings'} variant="ghost" className="tab-link h-auto rounded-none px-0" onClick={()=>setTab('listings')}><Store/>Anúncios ({listings.length})</Button></div><div role="tabpanel" className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5 lg:gap-4">{tab==='collection'?collection.map(v=><CardTile key={v.id} variant={v}/>):listings.map(copy=>{const v=variants.find(v=>v.id===copy.variantId);return v?<CardTile key={copy.id} variant={v} copy={copy}/>:null;})}</div>{(tab==='collection'?collection.length:listings.length)===0&&<div className="empty-state"><Store size={30} className="mx-auto mb-4"/><p>{tab==='collection'?'Esta coleção ainda está vazia.':'Nenhum exemplar anunciado.'}</p>{person.id==='me'&&<Button asChild className="mt-5" variant="outline"><Link to={tab==='collection'?'/explorar':'/anunciar'}>Adicionar card<Plus/></Link></Button>}</div>}</div>;}
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { MapPin, Library, Store, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CardTile } from "@/components/card-tile";
+import { collectors, variants } from "@/lib/catalog";
+import { useDemo } from "@/lib/demo-store";
+import { pageHead } from "@/lib/metadata";
+export const Route = createFileRoute("/perfil")({
+  validateSearch: (s: Record<string, unknown>): { collector?: string } => ({
+    collector: typeof s["collector"] === "string" ? s["collector"] : "me",
+  }),
+  head: () =>
+    pageHead(
+      "Perfil do colecionador",
+      "Conheça a coleção pública e os anúncios demonstrativos dos colecionadores Football Cards.",
+    ),
+  component: Profile,
+});
+function Profile() {
+  const { collector: id } = Route.useSearch();
+  const person = collectors.find((c) => c.id === (id ?? "me"));
+  const { copies } = useDemo();
+  const [tab, setTab] = useState("collection");
+  if (!person)
+    return (
+      <div className="site-shell empty-state">
+        <h1 className="page-title">Colecionador não encontrado</h1>
+        <Button asChild className="mt-5">
+          <Link to="/perfil" search={{ collector: "me" }}>
+            Minha conta
+          </Link>
+        </Button>
+      </div>
+    );
+  const own = copies.filter((c) => c.ownerId === person.id);
+  const collection = variants.filter((v) => own.some((c) => c.variantId === v.id));
+  const listings = own.filter((c) => c.listed);
+  return (
+    <div className="site-shell enter-animation py-9">
+      <span className="eyebrow">Colecionador demonstrativo</span>
+      <div className="mt-5 grid grid-cols-[auto_minmax(0,1fr)] items-center gap-5 sm:flex">
+        <div className="grid size-20 shrink-0 place-items-center rounded-full border border-border bg-secondary text-2xl font-extrabold text-primary">
+          {person.name
+            .split(" ")
+            .map((s) => s[0])
+            .join("")}
+        </div>
+        <div className="min-w-0">
+          <h1 className="page-title">{person.name}</h1>
+          <p className="mt-2 text-sm text-muted-foreground">@{person.handle}</p>
+          <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
+            <MapPin size={13} />
+            {person.city}
+          </p>
+        </div>
+        {person.id === "me" && (
+          <Button asChild className="col-span-2 sm:ml-auto">
+            <Link to="/anunciar">
+              <Plus />
+              Anunciar card
+            </Link>
+          </Button>
+        )}
+      </div>
+      <p className="mt-6 max-w-lg text-sm leading-relaxed text-muted-foreground">
+        Futebol, histórias e cards. Construindo minha coleção, uma descoberta de cada vez.
+      </p>
+      <div className="mt-6 flex gap-7 border-y border-border py-5">
+        {[
+          [own.length, "exemplares"],
+          [collection.length, "variantes"],
+          [listings.length, "anúncios"],
+        ].map(([n, l]) => (
+          <p key={l} className="text-xs text-muted-foreground">
+            <strong className="mr-1.5 text-xl text-foreground">{n}</strong>
+            {l}
+          </p>
+        ))}
+      </div>
+      <div
+        className="mb-6 mt-5 flex gap-6 border-b border-border"
+        role="tablist"
+        aria-label="Perfil público"
+      >
+        <Button
+          role="tab"
+          aria-selected={tab === "collection"}
+          data-active={tab === "collection"}
+          variant="ghost"
+          className="tab-link h-auto rounded-none px-0"
+          onClick={() => setTab("collection")}
+        >
+          <Library />
+          Coleção pública
+        </Button>
+        <Button
+          role="tab"
+          aria-selected={tab === "listings"}
+          data-active={tab === "listings"}
+          variant="ghost"
+          className="tab-link h-auto rounded-none px-0"
+          onClick={() => setTab("listings")}
+        >
+          <Store />
+          Anúncios ({listings.length})
+        </Button>
+      </div>
+      <div
+        role="tabpanel"
+        className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5 lg:gap-4"
+      >
+        {tab === "collection"
+          ? collection.map((v) => <CardTile key={v.id} variant={v} />)
+          : listings.map((copy) => {
+              const v = variants.find((v) => v.id === copy.variantId);
+              return v ? <CardTile key={copy.id} variant={v} copy={copy} /> : null;
+            })}
+      </div>
+      {(tab === "collection" ? collection.length : listings.length) === 0 && (
+        <div className="empty-state">
+          <Store size={30} className="mx-auto mb-4" />
+          <p>
+            {tab === "collection" ? "Esta coleção ainda está vazia." : "Nenhum exemplar anunciado."}
+          </p>
+          {person.id === "me" && (
+            <Button asChild className="mt-5" variant="outline">
+              <Link to={tab === "collection" ? "/explorar" : "/anunciar"}>
+                Adicionar card
+                <Plus />
+              </Link>
+            </Button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}

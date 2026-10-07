@@ -12,8 +12,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { DemoProvider } from '@/lib/demo-store';
-import { PlatformShell } from '@/components/platform-shell';
+import { DemoProvider } from "@/lib/demo-store";
+import { PlatformShell } from "@/components/platform-shell";
 
 function NotFoundComponent() {
   return (
@@ -81,7 +81,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Football Cards" },
-      { name: "description", content: "O ponto de encontro de colecionadores de cards de futebol no Brasil." },
+      {
+        name: "description",
+        content: "O ponto de encontro de colecionadores de cards de futebol no Brasil.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -90,8 +93,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap' },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -120,7 +126,11 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <DemoProvider><PlatformShell><Outlet /></PlatformShell></DemoProvider>
+      <DemoProvider>
+        <PlatformShell>
+          <Outlet />
+        </PlatformShell>
+      </DemoProvider>
     </QueryClientProvider>
   );
 }
