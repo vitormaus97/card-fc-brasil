@@ -21,14 +21,14 @@ export const variants: CardVariant[] = [
   {id:'endrick-base',cardId:'endrick',parallel:'Base',printRun:null,autograph:false},
 ];
 export const initialCopies: PhysicalCopy[] = [
-  {id:'copy-1',variantId:'vini-gold',ownerId:'rafa',serial:'17/50',condition:'Near Mint',grading:'PSA 10',front:catalogCards[0].image,back:'',price:1250,listed:true,createdAt:'2026-10-07T12:00:00Z'},
-  {id:'copy-2',variantId:'pele-green',ownerId:'ana',serial:'32/99',condition:'Mint',grading:'Sem graduação',front:catalogCards[1].image,back:'',price:890,listed:true,createdAt:'2026-10-07T11:00:00Z'},
-  {id:'copy-3',variantId:'messi-silver',ownerId:'rafa',serial:'',condition:'Mint',grading:'PSA 9',front:catalogCards[2].image,back:'',price:480,listed:true,createdAt:'2026-10-07T10:00:00Z'},
-  {id:'copy-4',variantId:'cr7-red',ownerId:'ana',serial:'87/199',condition:'Near Mint',grading:'BGS 9.5',front:catalogCards[3].image,back:'',price:620,listed:true,createdAt:'2026-10-06T09:00:00Z'},
-  {id:'copy-5',variantId:'ney-blue',ownerId:'rafa',serial:'08/150',condition:'Mint',grading:'Sem graduação',front:catalogCards[4].image,back:'',price:750,listed:true,createdAt:'2026-10-06T08:00:00Z'},
-  {id:'own-1',variantId:'endrick-base',ownerId:'me',serial:'',condition:'Mint',grading:'Sem graduação',front:catalogCards[5].image,back:'',price:null,listed:false,createdAt:'2026-10-05T08:00:00Z'},
-  {id:'own-2',variantId:'endrick-base',ownerId:'me',serial:'',condition:'Near Mint',grading:'Sem graduação',front:catalogCards[5].image,back:'',price:null,listed:false,createdAt:'2026-10-04T08:00:00Z'},
-  {id:'own-3',variantId:'vini-base',ownerId:'me',serial:'',condition:'Mint',grading:'Sem graduação',front:catalogCards[0].image,back:'',price:null,listed:false,createdAt:'2026-10-03T08:00:00Z'},
+  {id:'copy-1',variantId:'vini-gold',ownerId:'rafa',serial:'17/50',condition:'Near Mint',grading:'PSA 10',front:'/demo-cards/card-1.jpg',back:'',price:1250,listed:true,createdAt:'2026-10-07T12:00:00Z'},
+  {id:'copy-2',variantId:'pele-green',ownerId:'ana',serial:'32/99',condition:'Mint',grading:'Sem graduação',front:'/demo-cards/card-2.jpg',back:'',price:890,listed:true,createdAt:'2026-10-07T11:00:00Z'},
+  {id:'copy-3',variantId:'messi-silver',ownerId:'rafa',serial:'',condition:'Mint',grading:'PSA 9',front:'/demo-cards/card-3.jpg',back:'',price:480,listed:true,createdAt:'2026-10-07T10:00:00Z'},
+  {id:'copy-4',variantId:'cr7-red',ownerId:'ana',serial:'87/199',condition:'Near Mint',grading:'BGS 9.5',front:'/demo-cards/card-4.jpg',back:'',price:620,listed:true,createdAt:'2026-10-06T09:00:00Z'},
+  {id:'copy-5',variantId:'ney-blue',ownerId:'rafa',serial:'08/150',condition:'Mint',grading:'Sem graduação',front:'/demo-cards/card-5.jpg',back:'',price:750,listed:true,createdAt:'2026-10-06T08:00:00Z'},
+  {id:'own-1',variantId:'endrick-base',ownerId:'me',serial:'',condition:'Mint',grading:'Sem graduação',front:'/demo-cards/card-6.jpg',back:'',price:null,listed:false,createdAt:'2026-10-05T08:00:00Z'},
+  {id:'own-2',variantId:'endrick-base',ownerId:'me',serial:'',condition:'Near Mint',grading:'Sem graduação',front:'/demo-cards/card-6.jpg',back:'',price:null,listed:false,createdAt:'2026-10-04T08:00:00Z'},
+  {id:'own-3',variantId:'vini-base',ownerId:'me',serial:'',condition:'Mint',grading:'Sem graduação',front:'/demo-cards/card-1.jpg',back:'',price:null,listed:false,createdAt:'2026-10-03T08:00:00Z'},
 ];
 export const variantLabel = (variant: CardVariant) => `${variant.parallel}${variant.printRun ? ` /${variant.printRun}` : ''}`;
 export const money = (value: number) => new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(value);
