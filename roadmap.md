@@ -8,6 +8,8 @@
 ## Contas e coleção privada
 - [ ] Acesso por e-mail, confirmação, recuperação e logout com retorno
 - [ ] Catálogo público e dados pessoais isolados por políticas versionadas
-- [ ] Exemplares individuais, desejos, edição e exclusão confirmada
+- [ ] Ajuste marketplace: remover Tenho/Repetidos e coleção manual; favoritos separados
+- [ ] Coleção somente de aquisições confirmadas; compras e anúncios em áreas distintas
+- [ ] Destacar Mercado e manter anúncios demonstrativos sem pagamentos/lances
 - [ ] Preservar páginas e separar dados demonstrativos
 - [ ] Testar persistência e isolamento; documentar configurações
