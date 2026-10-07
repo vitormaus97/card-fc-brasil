@@ -8,6 +8,13 @@
       "when": 1791389893589,
       "tag": "0000_catalog_and_private_collections",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791390046447,
+      "tag": "0001_marketplace_purchase_collection_scope",
+      "breakpoints": true
     }
   ]
 }
