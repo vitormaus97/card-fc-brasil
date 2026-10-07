@@ -1,0 +1,104 @@
+import { Link } from "@tanstack/react-router";
+import { Heart, Check, Plus, BadgeCheck } from "lucide-react";
+import { Button } from "./ui/button";
+import {
+  getCard,
+  variantLabel,
+  money,
+  collectors,
+  type CardVariant,
+  type PhysicalCopy,
+} from "@/lib/catalog";
+import { useDemo } from "@/lib/demo-store";
+export function CardTile({ variant, copy }: { variant: CardVariant; copy?: PhysicalCopy }) {
+  const card = getCard(variant);
+  const { copies, wanted, toggleHave, toggleWant } = useDemo();
+  if (!card) return null;
+  const have = copies.some((c) => c.ownerId === "me" && c.variantId === variant.id);
+  const want = wanted.includes(variant.id);
+  const owner = collectors.find((c) => c.id === copy?.ownerId);
+  return (
+    <article className="card-tile">
+      <div className="card-stage">
+        <Link
+          to="/card/$id"
+          params={{ id: variant.id }}
+          className="flex h-full w-full items-center justify-center"
+          aria-label={`Ver ${card.player} ${variantLabel(variant)}`}
+        >
+          <img
+            src={copy?.front || card.image}
+            alt={`${card.player} — imagem ilustrativa`}
+            width={300}
+            height={420}
+            loading="lazy"
+          />
+        </Link>
+        <span className={`tag absolute left-3 top-3 ${variant.printRun ? "tag-gold" : ""}`}>
+          {variantLabel(variant)}
+        </span>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => toggleWant(variant.id)}
+          aria-label={want ? `Remover ${card.player} dos desejos` : `Quero ${card.player}`}
+          aria-pressed={want}
+          title={want ? "Remover dos desejos" : "Quero este card"}
+          className={`absolute right-2 top-2 ${want ? "text-primary" : "text-muted-foreground"}`}
+        >
+          <Heart className={want ? "fill-current" : ""} />
+        </Button>
+        {copy?.grading && copy.grading !== "Sem graduação" && (
+          <span className="tag absolute bottom-3 left-3">
+            <BadgeCheck size={11} />
+            {copy.grading}
+          </span>
+        )}
+      </div>
+      <div className="p-4">
+        <Link
+          to="/card/$id"
+          params={{ id: variant.id }}
+          className="block truncate text-[14px] font-bold"
+        >
+          {card.player}
+        </Link>
+        <p className="mt-1 truncate text-[11px] text-muted-foreground">
+          {card.collection} · {card.season}
+        </p>
+        <div className="mt-3 flex items-center gap-2">
+          <span className="tag">{card.club}</span>
+          {variant.autograph && <span className="tag tag-green">Auto</span>}
+        </div>
+        {copy ? (
+          <>
+            <div className="mt-4 flex items-end justify-between gap-2 border-t border-border pt-3">
+              <span className="text-[18px] font-bold">{money(copy.price ?? 0)}</span>
+              <span className="text-[10px] text-muted-foreground">
+                {copy.serial || "Não numerado"}
+              </span>
+            </div>
+            <Link
+              to="/perfil"
+              search={{ collector: copy.ownerId }}
+              className="mt-2 flex items-center gap-1.5 text-[10px] text-muted-foreground"
+            >
+              <span className="size-1 rounded-full bg-primary" />
+              {owner?.handle ?? "lucas.cards"} · {copy.condition}
+            </Link>
+          </>
+        ) : (
+          <Button
+            variant={have ? "secondary" : "outline"}
+            size="sm"
+            className="mt-4 w-full"
+            onClick={() => toggleHave(variant)}
+          >
+            {have ? <Check /> : <Plus />}
+            {have ? "Na minha coleção" : "Tenho este card"}
+          </Button>
+        )}
+      </div>
+    </article>
+  );
+}
