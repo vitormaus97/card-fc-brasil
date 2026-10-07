@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Heart, Check, Plus, BadgeCheck } from "lucide-react";
+import { Heart, BadgeCheck } from "lucide-react";
 import { Button } from "./ui/button";
 import {
   getCard,
@@ -9,12 +9,11 @@ import {
   type CardVariant,
   type PhysicalCopy,
 } from "@/lib/catalog";
-import { useDemo } from "@/lib/demo-store";
+import { useCollection } from "@/lib/collection-state";
 export function CardTile({ variant, copy }: { variant: CardVariant; copy?: PhysicalCopy }) {
   const card = getCard(variant);
-  const { copies, wanted, toggleHave, toggleWant } = useDemo();
+  const { wanted, toggleWant, busy, loading } = useCollection();
   if (!card) return null;
-  const have = copies.some((c) => c.ownerId === "me" && c.variantId === variant.id);
   const want = wanted.includes(variant.id);
   const owner = collectors.find((c) => c.id === copy?.ownerId);
   return (
@@ -40,6 +39,7 @@ export function CardTile({ variant, copy }: { variant: CardVariant; copy?: Physi
         <Button
           variant="ghost"
           size="icon"
+          disabled={busy || loading}
           onClick={() => toggleWant(variant.id)}
           aria-label={want ? `Remover ${card.player} dos desejos` : `Quero ${card.player}`}
           aria-pressed={want}
@@ -88,15 +88,7 @@ export function CardTile({ variant, copy }: { variant: CardVariant; copy?: Physi
             </Link>
           </>
         ) : (
-          <Button
-            variant={have ? "secondary" : "outline"}
-            size="sm"
-            className="mt-4 w-full"
-            onClick={() => toggleHave(variant)}
-          >
-            {have ? <Check /> : <Plus />}
-            {have ? "Na minha coleção" : "Tenho este card"}
-          </Button>
+          <p className="mt-4 text-[11px] text-muted-foreground">Catálogo ilustrativo</p>
         )}
       </div>
     </article>
