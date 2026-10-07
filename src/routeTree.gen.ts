@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AnunciarRouteImport } from './routes/anunciar'
-import { Route as ColecaoRouteImport } from './routes/colecao'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ExplorarRouteImport } from './routes/explorar'
 import { Route as MercadoRouteImport } from './routes/mercado'
 import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedColecaoRouteImport } from './routes/_authenticated/colecao'
+import { Route as AuthenticatedComprasRouteImport } from './routes/_authenticated/compras'
+import { Route as AuthenticatedFavoritosRouteImport } from './routes/_authenticated/favoritos'
+import { Route as AuthenticatedMeusAnunciosRouteImport } from './routes/_authenticated/meus-anuncios'
 import { Route as CardIdRouteImport } from './routes/card.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -22,14 +28,18 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AnunciarRoute = AnunciarRouteImport.update({
   id: '/anunciar',
   path: '/anunciar',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ColecaoRoute = ColecaoRouteImport.update({
-  id: '/colecao',
-  path: '/colecao',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExplorarRoute = ExplorarRouteImport.update({
@@ -47,6 +57,32 @@ const PerfilRoute = PerfilRouteImport.update({
   path: '/perfil',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedColecaoRoute = AuthenticatedColecaoRouteImport.update({
+  id: '/colecao',
+  path: '/colecao',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedComprasRoute = AuthenticatedComprasRouteImport.update({
+  id: '/compras',
+  path: '/compras',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedFavoritosRoute = AuthenticatedFavoritosRouteImport.update({
+  id: '/favoritos',
+  path: '/favoritos',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMeusAnunciosRoute =
+  AuthenticatedMeusAnunciosRouteImport.update({
+    id: '/meus-anuncios',
+    path: '/meus-anuncios',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const CardIdRoute = CardIdRouteImport.update({
   id: '/card/$id',
   path: '/card/$id',
@@ -56,29 +92,45 @@ const CardIdRoute = CardIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/anunciar': typeof AnunciarRoute
-  '/colecao': typeof ColecaoRoute
+  '/auth': typeof AuthRoute
   '/explorar': typeof ExplorarRoute
   '/mercado': typeof MercadoRoute
   '/perfil': typeof PerfilRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/colecao': typeof AuthenticatedColecaoRoute
+  '/compras': typeof AuthenticatedComprasRoute
+  '/favoritos': typeof AuthenticatedFavoritosRoute
+  '/meus-anuncios': typeof AuthenticatedMeusAnunciosRoute
   '/card/$id': typeof CardIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/anunciar': typeof AnunciarRoute
-  '/colecao': typeof ColecaoRoute
+  '/auth': typeof AuthRoute
   '/explorar': typeof ExplorarRoute
   '/mercado': typeof MercadoRoute
   '/perfil': typeof PerfilRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/colecao': typeof AuthenticatedColecaoRoute
+  '/compras': typeof AuthenticatedComprasRoute
+  '/favoritos': typeof AuthenticatedFavoritosRoute
+  '/meus-anuncios': typeof AuthenticatedMeusAnunciosRoute
   '/card/$id': typeof CardIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/anunciar': typeof AnunciarRoute
-  '/colecao': typeof ColecaoRoute
+  '/auth': typeof AuthRoute
   '/explorar': typeof ExplorarRoute
   '/mercado': typeof MercadoRoute
   '/perfil': typeof PerfilRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/colecao': typeof AuthenticatedColecaoRoute
+  '/_authenticated/compras': typeof AuthenticatedComprasRoute
+  '/_authenticated/favoritos': typeof AuthenticatedFavoritosRoute
+  '/_authenticated/meus-anuncios': typeof AuthenticatedMeusAnunciosRoute
   '/card/$id': typeof CardIdRoute
 }
 export interface FileRouteTypes {
@@ -86,38 +138,56 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/anunciar'
-    | '/colecao'
+    | '/auth'
     | '/explorar'
     | '/mercado'
     | '/perfil'
+    | '/reset-password'
+    | '/colecao'
+    | '/compras'
+    | '/favoritos'
+    | '/meus-anuncios'
     | '/card/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/anunciar'
-    | '/colecao'
+    | '/auth'
     | '/explorar'
     | '/mercado'
     | '/perfil'
+    | '/reset-password'
+    | '/colecao'
+    | '/compras'
+    | '/favoritos'
+    | '/meus-anuncios'
     | '/card/$id'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/anunciar'
-    | '/colecao'
+    | '/auth'
     | '/explorar'
     | '/mercado'
     | '/perfil'
+    | '/reset-password'
+    | '/_authenticated/colecao'
+    | '/_authenticated/compras'
+    | '/_authenticated/favoritos'
+    | '/_authenticated/meus-anuncios'
     | '/card/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AnunciarRoute: typeof AnunciarRoute
-  ColecaoRoute: typeof ColecaoRoute
+  AuthRoute: typeof AuthRoute
   ExplorarRoute: typeof ExplorarRoute
   MercadoRoute: typeof MercadoRoute
   PerfilRoute: typeof PerfilRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   CardIdRoute: typeof CardIdRoute
 }
 
@@ -130,6 +200,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/anunciar': {
       id: '/anunciar'
       path: '/anunciar'
@@ -137,11 +214,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnunciarRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/colecao': {
-      id: '/colecao'
-      path: '/colecao'
-      fullPath: '/colecao'
-      preLoaderRoute: typeof ColecaoRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/explorar': {
@@ -165,6 +242,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PerfilRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/colecao': {
+      id: '/_authenticated/colecao'
+      path: '/colecao'
+      fullPath: '/colecao'
+      preLoaderRoute: typeof AuthenticatedColecaoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/compras': {
+      id: '/_authenticated/compras'
+      path: '/compras'
+      fullPath: '/compras'
+      preLoaderRoute: typeof AuthenticatedComprasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/favoritos': {
+      id: '/_authenticated/favoritos'
+      path: '/favoritos'
+      fullPath: '/favoritos'
+      preLoaderRoute: typeof AuthenticatedFavoritosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/meus-anuncios': {
+      id: '/_authenticated/meus-anuncios'
+      path: '/meus-anuncios'
+      fullPath: '/meus-anuncios'
+      preLoaderRoute: typeof AuthenticatedMeusAnunciosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/card/$id': {
       id: '/card/$id'
       path: '/card/$id'
@@ -175,13 +287,32 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedColecaoRoute: typeof AuthenticatedColecaoRoute
+  AuthenticatedComprasRoute: typeof AuthenticatedComprasRoute
+  AuthenticatedFavoritosRoute: typeof AuthenticatedFavoritosRoute
+  AuthenticatedMeusAnunciosRoute: typeof AuthenticatedMeusAnunciosRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedColecaoRoute: AuthenticatedColecaoRoute,
+  AuthenticatedComprasRoute: AuthenticatedComprasRoute,
+  AuthenticatedFavoritosRoute: AuthenticatedFavoritosRoute,
+  AuthenticatedMeusAnunciosRoute: AuthenticatedMeusAnunciosRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AnunciarRoute: AnunciarRoute,
-  ColecaoRoute: ColecaoRoute,
+  AuthRoute: AuthRoute,
   ExplorarRoute: ExplorarRoute,
   MercadoRoute: MercadoRoute,
   PerfilRoute: PerfilRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   CardIdRoute: CardIdRoute,
 }
 export const routeTree = rootRouteImport
