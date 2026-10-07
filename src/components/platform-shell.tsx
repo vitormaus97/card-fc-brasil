@@ -32,7 +32,7 @@ export function PlatformShell({ children }: { children: React.ReactNode }) {
               </span>
             </span>
           </Link>
-          <nav className="desktop-nav flex items-center gap-7">
+          <nav className="hidden items-center gap-7 md:flex">
             <Link to="/" className="nav-link" activeOptions={{ exact: true }}>
               Início
             </Link>
