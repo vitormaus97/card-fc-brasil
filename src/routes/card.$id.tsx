@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowLeft, Check, Plus, Heart, BadgeCheck, Image, ArrowRight } from "lucide-react";
+import { ArrowLeft, Heart, BadgeCheck, Image, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CardTile } from "@/components/card-tile";
 import { variants, getCard, variantLabel, type PhysicalCopy } from "@/lib/catalog";
@@ -36,12 +36,11 @@ function CardDetail() {
   const v = Route.useLoaderData();
   const card = getCard(v);
   const { copies } = useDemo();
-  const { copies: owned, wanted, toggleHave, toggleWant, busy, loading } = useCollection();
+  const { wanted, toggleWant, busy, loading } = useCollection();
   const navigate = useNavigate();
   const [selected, setSelected] = useState<PhysicalCopy | null>(null);
   const [side, setSide] = useState("front");
   if (!card) return null;
-  const have = owned.some((c) => c.variant_id === v.id);
   const want = wanted.includes(v.id);
   const listings = copies.filter((c) => c.variantId === v.id && c.listed);
   const sameCard = variants.filter((item) => item.cardId === card.id);
@@ -123,17 +122,7 @@ function CardDetail() {
               </div>
             ))}
           </dl>
-          <div className="mt-6 grid grid-cols-2 gap-3">
-            <Button
-              size="lg"
-              disabled={busy || loading}
-              onClick={() => toggleHave(v)}
-              variant={have ? "secondary" : "default"}
-              aria-pressed={have}
-            >
-              {have ? <Check /> : <Plus />}
-              {have ? "Tenho na coleção" : "Tenho"}
-            </Button>
+          <div className="mt-6 flex flex-wrap gap-3">
             <Button
               size="lg"
               variant={want ? "secondary" : "outline"}

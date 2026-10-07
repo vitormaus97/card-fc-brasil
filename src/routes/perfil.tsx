@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { CardTile } from "@/components/card-tile";
 import { collectors, variants } from "@/lib/catalog";
 import { useDemo } from "@/lib/demo-store";
+import { PrivateAccount } from "@/components/account-pages";
 import { pageHead } from "@/lib/metadata";
 export const Route = createFileRoute("/perfil")({
   validateSearch: (s: Record<string, unknown>): { collector?: string } => ({
@@ -22,6 +23,7 @@ function Profile() {
   const person = collectors.find((c) => c.id === (id ?? "me"));
   const { copies } = useDemo();
   const [tab, setTab] = useState("collection");
+  if (!id || id === "me") return <PrivateAccount />;
   if (!person)
     return (
       <div className="site-shell empty-state">
