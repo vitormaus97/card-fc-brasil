@@ -1,0 +1,5 @@
+import { createFileRoute } from '@tanstack/react-router';
+import { CatalogBrowser } from '@/components/catalog-browser';
+import { pageHead } from '@/lib/metadata';
+export const Route=createFileRoute('/explorar')({validateSearch:(s:Record<string,unknown>)=>({q:typeof s.q==='string'?s.q:'',collection:typeof s.collection==='string'?s.collection:''}),head:()=>pageHead('Explorar cards','Catálogo demonstrativo com filtros por jogador, clube, coleção, paralelo e graduação.'),component:Explore});
+function Explore(){const {q,collection}=Route.useSearch();return <div className="site-shell enter-animation py-9"><span className="eyebrow">O universo dos cards</span><h1 className="page-title mt-2">Explore. Encontre. Colecione.</h1><p className="mt-3 text-sm text-muted-foreground">O próximo destaque da sua coleção começa aqui.</p><CatalogBrowser key={`${q}-${collection}`} initialQuery={q} initialCollection={collection}/></div>;}
