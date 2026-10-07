@@ -10,12 +10,26 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AnunciarRouteImport } from './routes/anunciar'
+import { Route as ColecaoRouteImport } from './routes/colecao'
 import { Route as ExplorarRouteImport } from './routes/explorar'
 import { Route as MercadoRouteImport } from './routes/mercado'
+import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as CardIdRouteImport } from './routes/card.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AnunciarRoute = AnunciarRouteImport.update({
+  id: '/anunciar',
+  path: '/anunciar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ColecaoRoute = ColecaoRouteImport.update({
+  id: '/colecao',
+  path: '/colecao',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExplorarRoute = ExplorarRouteImport.update({
@@ -28,35 +42,83 @@ const MercadoRoute = MercadoRouteImport.update({
   path: '/mercado',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PerfilRoute = PerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CardIdRoute = CardIdRouteImport.update({
+  id: '/card/$id',
+  path: '/card/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/anunciar': typeof AnunciarRoute
+  '/colecao': typeof ColecaoRoute
   '/explorar': typeof ExplorarRoute
   '/mercado': typeof MercadoRoute
+  '/perfil': typeof PerfilRoute
+  '/card/$id': typeof CardIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/anunciar': typeof AnunciarRoute
+  '/colecao': typeof ColecaoRoute
   '/explorar': typeof ExplorarRoute
   '/mercado': typeof MercadoRoute
+  '/perfil': typeof PerfilRoute
+  '/card/$id': typeof CardIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/anunciar': typeof AnunciarRoute
+  '/colecao': typeof ColecaoRoute
   '/explorar': typeof ExplorarRoute
   '/mercado': typeof MercadoRoute
+  '/perfil': typeof PerfilRoute
+  '/card/$id': typeof CardIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/explorar' | '/mercado'
+  fullPaths:
+    | '/'
+    | '/anunciar'
+    | '/colecao'
+    | '/explorar'
+    | '/mercado'
+    | '/perfil'
+    | '/card/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/explorar' | '/mercado'
-  id: '__root__' | '/' | '/explorar' | '/mercado'
+  to:
+    | '/'
+    | '/anunciar'
+    | '/colecao'
+    | '/explorar'
+    | '/mercado'
+    | '/perfil'
+    | '/card/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/anunciar'
+    | '/colecao'
+    | '/explorar'
+    | '/mercado'
+    | '/perfil'
+    | '/card/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnunciarRoute: typeof AnunciarRoute
+  ColecaoRoute: typeof ColecaoRoute
   ExplorarRoute: typeof ExplorarRoute
   MercadoRoute: typeof MercadoRoute
+  PerfilRoute: typeof PerfilRoute
+  CardIdRoute: typeof CardIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -66,6 +128,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/anunciar': {
+      id: '/anunciar'
+      path: '/anunciar'
+      fullPath: '/anunciar'
+      preLoaderRoute: typeof AnunciarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/colecao': {
+      id: '/colecao'
+      path: '/colecao'
+      fullPath: '/colecao'
+      preLoaderRoute: typeof ColecaoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/explorar': {
@@ -82,13 +158,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MercadoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/perfil': {
+      id: '/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof PerfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/card/$id': {
+      id: '/card/$id'
+      path: '/card/$id'
+      fullPath: '/card/$id'
+      preLoaderRoute: typeof CardIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnunciarRoute: AnunciarRoute,
+  ColecaoRoute: ColecaoRoute,
   ExplorarRoute: ExplorarRoute,
   MercadoRoute: MercadoRoute,
+  PerfilRoute: PerfilRoute,
+  CardIdRoute: CardIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
