@@ -42,7 +42,7 @@ export function CollectionProvider({ children }: { children: ReactNode }) {
     void perform(() => wish({ data: { variantId, wanted: !wanted.includes(variantId) } }));
   }
   useEffect(() => {
-    if (!user || !query.data || resumed.current === user.id || router.state.location.pathname === '/reset-password') return;
+    if (!user || !query.data || resumed.current === user.id || router.state.location.pathname === '/reset-password' || sessionStorage.getItem('fc-recovery') === 'true') return;
     const raw = sessionStorage.getItem('fc-pending-action');
     if (!raw) return;
     resumed.current = user.id;

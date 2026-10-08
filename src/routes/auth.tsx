@@ -29,7 +29,8 @@ function AuthPage() {
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
         if (error) throw error;
-        await navigate({ to: safeReturn(redirect), replace: true });
+        sessionStorage.removeItem('fc-return-after-confirm');
+        // The verified root auth state drives the single post-login navigation.
       }
     } catch { setError(mode === 'login' ? 'Não foi possível entrar. Confira e-mail, senha e a confirmação do cadastro.' : 'Não foi possível enviar. Confira os dados e tente novamente em alguns instantes.'); }
     finally { setBusy(false); }
