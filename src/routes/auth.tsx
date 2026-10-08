@@ -30,7 +30,7 @@ function AuthPage() {
         const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
         if (error) throw error;
         sessionStorage.removeItem('fc-return-after-confirm');
-        await navigate({ to: safeReturn(redirect), replace: true });
+        // The verified root auth state drives the single post-login navigation.
       }
     } catch { setError(mode === 'login' ? 'Não foi possível entrar. Confira e-mail, senha e a confirmação do cadastro.' : 'Não foi possível enviar. Confira os dados e tente novamente em alguns instantes.'); }
     finally { setBusy(false); }

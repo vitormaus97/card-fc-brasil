@@ -15,9 +15,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   useEffect(() => {
     let alive = true;
+    let revision = 0;
     async function refresh() {
+      const current = ++revision;
       const { data } = await supabase.auth.getUser();
-      if (alive) {
+      if (alive && current === revision) {
         setUser(data.user); setReady(true);
         const destination = sessionStorage.getItem('fc-return-after-confirm');
         if (data.user && destination && router.state.location.pathname === '/' && sessionStorage.getItem('fc-recovery') !== 'true') {
@@ -31,8 +33,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Auth callback must not await another auth call (the auth lock is still held).
       setTimeout(() => {
         if (!alive) return;
-        if (event === 'SIGNED_OUT') { setUser(null); queryClient.clear(); void router.invalidate(); }
-        else { void refresh(); void router.invalidate(); void queryClient.invalidateQueries(); }
+        if (event === 'SIGNED_OUT') { revision++; setUser(null); queryClient.clear(); void router.invalidate(); }
+        else { void refresh().then(() => { if (alive) { void router.invalidate(); void queryClient.invalidateQueries(); } }); }
         if (event === 'PASSWORD_RECOVERY') {
           sessionStorage.setItem('fc-recovery', 'true');
           void router.navigate({ to: '/reset-password' });
