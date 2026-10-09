@@ -6,10 +6,12 @@
 - [x] Verificação das páginas e fluxos
 
 ## Contas e coleção privada
-- [ ] Acesso por e-mail, confirmação, recuperação e logout com retorno
-- [ ] Catálogo público e dados pessoais isolados por políticas versionadas
-- [ ] Ajuste marketplace: remover Tenho/Repetidos e coleção manual; favoritos separados
-- [ ] Coleção somente de aquisições confirmadas; compras e anúncios em áreas distintas
-- [ ] Destacar Mercado e manter anúncios demonstrativos sem pagamentos/lances
-- [ ] Preservar páginas e separar dados demonstrativos
-- [ ] Testar persistência e isolamento; documentar configurações
+- [x] Acesso por e-mail, telas de confirmação/recuperação e logout com retorno
+- [x] Catálogo público e dados pessoais isolados por políticas versionadas
+- [x] Ajuste marketplace: remover Tenho/Repetidos e coleção manual; favoritos separados
+- [x] Coleção somente de aquisições confirmadas; compras e anúncios em áreas distintas
+- [x] Destacar Mercado e manter anúncios demonstrativos sem pagamentos/lances
+- [x] Preservar páginas e separar dados demonstrativos
+- [x] Testar persistência e isolamento; documentar configurações
+- [ ] Verificar entrega e abertura de e-mail de confirmação/recuperação — depende de uma caixa real do usuário
+- [x] Conferir anexo repetindo o briefing inicial e preservar o ajuste explícito posterior para marketplace

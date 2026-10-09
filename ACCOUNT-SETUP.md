@@ -22,4 +22,10 @@ As tabelas da primeira implementação foram preservadas. A mudança de escopo a
 Vendas diretas, leilões, pagamentos, lances, anúncios reais, entrega e confirmação de recebimento. O vendedor poderá registrar inventário próprio para anunciar sem adicioná-lo à coleção adquirida. A confirmação futura deverá ser autenticada e validada no servidor, com escrita de aquisição idempotente por pedido.
 
 ## Verificação
-Resultados da execução são registrados abaixo após testar as telas, persistência de favoritos, acesso e isolamento. Entrega de e-mails numa caixa real depende do provedor e não pode ser inferida somente pelo sucesso da solicitação.
+- Seis testes automáticos passaram: catálogo, caminhos de navegação e escopo da conta.
+- Navegador: catálogo público, bloqueio da coleção sem sessão, login/sair, retorno ao card e conclusão do Quero solicitado, favoritos e nome persistidos após recarregar.
+- Duas contas temporárias: a segunda não herdou favoritos nem conseguiu ler/alterar dados privados da primeira; escrita no catálogo e aquisição manual foram bloqueadas no banco.
+- Uma aquisição temporária de teste com pedido recebido apareceu na coleção e persistiu após recarregar; ficou invisível à outra conta. Todos os pedidos, exemplares, aquisições e contas temporários foram removidos depois da verificação.
+- Nenhum erro de execução no navegador; última verificação automática de compilação sem erros.
+- A tela de recuperação rejeitou ausência de link válido. Cadastro com domínio reservado de teste foi rejeitado pelo serviço, corretamente; os testes autenticados usaram contas temporárias confirmadas individualmente, sem alterar a confirmação global.
+- **Pendente:** entrega real de e-mail, abertura do link de confirmação e troca de senha a partir de link recebido não foram verificadas. Precisam de uma caixa real controlada pelo usuário; não foram enviados e-mails de teste a terceiros.
